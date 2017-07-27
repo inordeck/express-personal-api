@@ -5,3 +5,4 @@ mongoose.connect( process.env.MONGODB_URI ||
                   "mongodb://localhost/personal-api");
 
 module.exports.Info = require("./info.js");
+module.exports.Album = require("./album.js");

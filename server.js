@@ -35,6 +35,7 @@ app.get('/', function homepage(req, res) {
  * JSON API Endpoints
  */
 
+
 app.get('/api', function api_index(req, res) {
   // TODO: Document all your api endpoints below
   res.json({
@@ -49,6 +50,23 @@ app.get('/api', function api_index(req, res) {
     ]
   });
 });
+
+app.get('/api/info', function api_index(req, res) {
+  db.Info.find()
+    .exec(function(err, info){
+      if (err) { return console.log("error: " + err); }
+       res.json(info);
+    });
+});
+
+app.get('/api/albums', function api_index(req, res) {
+  db.Album.find()
+    .exec(function(err, info){
+      if (err) { return console.log("error: " + err); }
+       res.json(info);
+    });
+});
+
 
 /**********
  * SERVER *

@@ -1,6 +1,11 @@
 var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
+var PetSchema = new Schema({
+	name: String, 
+	type: String
+});
+
 var InfoSchema = new Schema({
 	description: String,
 	firstName: String,
@@ -10,42 +15,9 @@ var InfoSchema = new Schema({
 	profilePhoto: String,
 	city: String,
 	state: String,
-	pets:[{
-		name: String,
-		type: String
-	}]
+	pets:[PetSchema]
 });
-
-var AlbumSchema = new Schema({
-	albumOne:[{
-		title: String,
-		artist: String,
-		release: String
-	}],
-	albumTwo:[{
-		title: String,
-		artist: String,
-		release: String
-	}],
-	albumThree:[{
-		title: String,
-		artist: String,
-		release: String
-	}],
-	albumFour:[{
-		title: String,
-		artist: String,
-		release: String
-	}],
-	albumFive:[{
-		title: String,
-		artist: String,
-		release: String
-	}],
-});
-
 
 var Info = mongoose.model('Info', InfoSchema);
 
 module.exports = Info;
-module.exports = Album;
