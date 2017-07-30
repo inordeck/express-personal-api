@@ -65,7 +65,7 @@ db.Info.remove({}, function(err, info){
     // create new records based on the array info
     db.Info.create(my_info, function(err, info){
       if (err) { return console.log('err', err); }
-      console.log("created", info.length, "info");
+      console.log("created", info, "info");
     });
   }
 });
@@ -80,7 +80,7 @@ db.Album.remove({}, function(err, albums){
     // create new records based on the array album
     db.Album.create(my_albums, function(err, albums){
       if (err) { return console.log('err', err); }
-      console.log("created", albums.length, "albums");
+      console.log("created", albums, "albums");
       process.exit();
     });
   }

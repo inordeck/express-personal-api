@@ -54,6 +54,8 @@ app.get('/api', function api_index(req, res) {
 app.get('/api/info', function api_index(req, res) {
   db.Info.find()
     .exec(function(err, info){
+      console.log("test");
+      console.log(info);
       if (err) { return console.log("error: " + err); }
        res.json(info);
     });
