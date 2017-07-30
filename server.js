@@ -45,7 +45,8 @@ app.get('/api', function api_index(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/info", description: "info about me"},
-      {method: "POST", path: "/api/albums", description: "my top 25 most influential albums"},
+      {method: "GET", path: "/api/albums", description: "list of my top 25 most influential albums"},
+      {method: "POST", path: "/api/albums", description: "add album to list"},
       {method: "DELETE", path: "/api/albums", description: "update my top 25 most influential albums"}
     ]
   });
@@ -79,13 +80,14 @@ app.get('/api/albums/:id', function (req, res){
 
 // add new album
 app.post('/api/albums', function (req, res){
-  var newAlbum = new dn.Album({
+  var newAlbum = new db.Album({
     album: req.body.album,
     title: req.body.title,
     artist: req.body.artist,
     release: req.body.release,
     format: req.body.format
   });
+  console.log(newAlbum);
   newAlbum.save(function(err, album){
     if (err) {
       return console.log("save error: " + err);
@@ -95,13 +97,35 @@ app.post('/api/albums', function (req, res){
   });
 });
 
-app.delete('/api/books/:id', function (req, res){
+// update album
+app.put('/api/albums/:id', function (req, res){
+  var id = req.params.id;
+
+  db.Album.findOne({_id: id}, function(err, albums){
+    if(err) res.json({message: 'could not find album because ' + err});
+    if(req.body.album) albums.album = req.body.album;
+    if(req.body.title) albums.title = req.body.title;
+    if(req.body.artist) albums.artist = req.body.artist;
+    if(req.body.release) albums.release = req.body.release;
+    if(req.body.format) albums.format = req.body.format;
+
+    albums.save(function(err){
+      if(err) res.json({message: 'could not update candy because ' + err});
+      res.json(albums);
+    });
+  });
+});
+
+
+// delete album
+app.delete('/api/albums/:id', function (req, res){
   console.log("album deleted: ", req.params);
   var albumId = req.params.id;
   db.Album.findOneAndRemove({ _id: albumId }, function (err, deletedAlbum){
     res.json(deletedAlbum);
   });
 });
+
 
 
 /**********
