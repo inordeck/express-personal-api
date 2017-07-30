@@ -47,6 +47,7 @@ app.get('/api', function api_index(req, res) {
       {method: "GET", path: "/api/info", description: "info about me"},
       {method: "GET", path: "/api/albums", description: "list of my top 25 most influential albums"},
       {method: "POST", path: "/api/albums", description: "add album to list"},
+      {method: "PUT", path: "/api/albums", description: "update album by id"},
       {method: "DELETE", path: "/api/albums", description: "update my top 25 most influential albums"}
     ]
   });
