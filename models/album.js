@@ -5,7 +5,8 @@ var AlbumSchema = new Schema({
 	album: Number,
 	title: String,
 	artist: String,
-	release: String
+	release: Number,
+	format: String
 });
 
 

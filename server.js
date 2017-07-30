@@ -39,14 +39,14 @@ app.get('/', function homepage(req, res) {
 app.get('/api', function api_index(req, res) {
   // TODO: Document all your api endpoints below
   res.json({
-    woops_i_has_forgot_to_document_all_my_endpoints: true, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
     documentation_url: "https://github.com/inordeck/express-personal-api",
     base_url: "https://thawing-anchorage-60764.herokuapp.com/",
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/campsites", description: "E.g. Create a new campsite"} // CHANGE ME
+      {method: "GET", path: "/api/info", description: "info about me"},
+      {method: "POST", path: "/api/albums", description: "my top 25 most influential albums"},
+      {method: "DELETE", path: "/api/albums", description: "update my top 25 most influential albums"}
     ]
   });
 });
@@ -59,12 +59,46 @@ app.get('/api/info', function api_index(req, res) {
     });
 });
 
+// get all albums
 app.get('/api/albums', function api_index(req, res) {
   db.Album.find()
     .exec(function(err, info){
       if (err) { return console.log("error: " + err); }
        res.json(info);
     });
+});
+
+// get one album
+app.get('/api/albums/:id', function (req, res){
+  db.Album.findOne({ _id: req.params.id }, function(err, data) {
+    res.json(data);
+  });
+});
+
+// add new album
+app.post('/api/albums', function (req, res){
+  var newAlbum = new dn.Album({
+    album: req.body.album,
+    title: req.body.title,
+    artist: req.body.artist,
+    release: req.body.release,
+    format: req.body.format
+  });
+  newAlbum.save(function(err, album){
+    if (err) {
+      return console.log("save error: " + err);
+    }
+    console.log("saved ", album.title);
+    res.json(album);
+  });
+});
+
+app.delete('/api/books/:id', function (req, res){
+  console.log("album deleted: ", req.params);
+  var albumId = req.params.id;
+  db.Album.findOneAndRemove({ _id: albumId }, function (err, deletedAlbum){
+    res.json(deletedAlbum);
+  });
 });
 
 
